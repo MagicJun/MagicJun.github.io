@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://MagicJun.github.io/sitemap.xml 
