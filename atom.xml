@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[ZHOU JUAN, I STILL LOVES YOU]]></title>
   <link href="http://MagicJun.github.io/atom.xml" rel="self"/>
   <link href="http://MagicJun.github.io/"/>
-  <updated>2014-02-13T21:57:52+08:00</updated>
+  <updated>2014-02-14T21:33:47+08:00</updated>
   <id>http://MagicJun.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[JUN DUAN]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
