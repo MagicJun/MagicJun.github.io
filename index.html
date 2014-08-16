@@ -96,7 +96,7 @@
   </header>
 
 
-  <div class="entry-content"><p>最近个人项目需要用到自动文本分类技术，这并不是什么研究课题，并不忌讳抄袭，相反能复用的轮子越多越好。需求是将博客（主要是中文）文章自动归类，方便为读者提供个性化推荐。思路是这样：
+  <div class="entry-content"><p>最近个人项目需要用到自动文本分类技术，这并不是什么研究课题，并不忌讳抄袭，相反能复用的轮子越多越好。需求是将博客（主要是中文）文章自动归类，方便为读者提供个性化推荐。思路是这样：</br>
 1. 中文分词
 </br>中文分词大概是所有（中文）文本挖掘技术的基础，分词算法有很多类，字符串匹配+词典，统计模型等。互联网上有多种成熟的解决方案，我主要研究了下SAE的中文分词服务以及中科院的ictclas。SAE中文分词服务免费，但必须有appid，每次分词的文本大小不超过10KB，分词结果带有非常详细的词性标注，既然是服务，就无所谓语言支持了。ICTCLAS是个开源项目，支持C++，java等，考虑到ICTCLAS可能偏学术一些，我选用了SAE的中文分词，申请了一个appid，然后用php包装了一层，滤掉英文摘要，文本分段等等，向外提供rest接口，返回格式json。值的注意的是，这两种方法貌似对新词支持不够好，特别是ICTCLAS，“知乎”都分不出。
 2. 计算分词TF-IDF值
@@ -115,10 +115,9 @@
  </br>@relation traindata
  </br>@attribute class (历史，文学&hellip;)
  </br>@attribute 鲁迅 numetric
- @attribute &hellip;特征词&hellip; numeric</p>
-
-<p> @data  把所有的9000多篇训练文章都放进来
- 历史,0.234,0&hellip;. 每篇文章的特征向量</p>
+ </br>@attribute &hellip;特征词&hellip; numeric
+ </br>@data  把所有的9000多篇训练文章都放进来
+ </br>历史,0.234,0&hellip;. 每篇文章的特征向量</p>
 
 <p> load完这个文件就可以训练了，classifier.buildClassifier(trainInstances); 训练完成会得到一个分类模型，这个模型可以序列化为文件，模型的好坏需要看测试结果，可以用classifier.classifyInstance(testInstance)对测试集进行检验，并且调整各个参数提高准确率;</p></li>
 <li>使用分类器
@@ -128,11 +127,11 @@
 
 <p>总结：1-4步每步都能影响分类准确率，只能自己边实验边提高了。英文文本分类是有大公司提供api的，如yahoo的YQL。</p>
 
-<p>References:
-SAE中文分词服务：<a href="http://sae.sina.com.cn/doc/python/segment.html">http://sae.sina.com.cn/doc/python/segment.html</a>
-ICTCLAS：<a href="http://ictclas.org/index.html">http://ictclas.org/index.html</a>
-weka: <a href="http://www.cs.waikato.ac.nz/ml/weka/">http://www.cs.waikato.ac.nz/ml/weka/</a>
-YQL: <a href="https://developer.yahoo.com/yql/">https://developer.yahoo.com/yql/</a></p>
+<p>References:</br>
+SAE中文分词服务：<a href="http://sae.sina.com.cn/doc/python/segment.html">http://sae.sina.com.cn/doc/python/segment.html</a></br>
+ICTCLAS：<a href="http://ictclas.org/index.html">http://ictclas.org/index.html</a></br>
+weka: <a href="http://www.cs.waikato.ac.nz/ml/weka/">http://www.cs.waikato.ac.nz/ml/weka/</a></br>
+YQL: <a href="https://developer.yahoo.com/yql/">https://developer.yahoo.com/yql/</a></br></p>
 </div>
   
   
