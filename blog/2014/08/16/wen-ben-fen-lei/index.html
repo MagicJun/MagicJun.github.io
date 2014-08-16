@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Road I travelled</title>
+  <title>文本分类 - Road I travelled</title>
   <meta name="author" content="JUN DUAN">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://MagicJun.github.io">
+  <link rel="canonical" href="http://MagicJun.github.io/blog/2014/08/16/wen-ben-fen-lei">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Road I travelled" type="application/atom+xml">
@@ -64,15 +64,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/16/wen-ben-fen-lei/">文本分类</a></h1>
+      <h1 class="entry-title">文本分类</h1>
     
     
       <p class="meta">
@@ -95,7 +92,7 @@
   </header>
 
 
-  <div class="entry-content"><p>最近个人项目需要用到自动文本分类技术，这并不是什么研究课题，并不忌讳抄袭，相反能复用的轮子越多越好。需求是将博客（主要是中文）文章自动归类，方便给读者推荐阅读。思路是这样：
+<div class="entry-content"><p>最近个人项目需要用到自动文本分类技术，这并不是什么研究课题，并不忌讳抄袭，相反能复用的轮子越多越好。需求是将博客（主要是中文）文章自动归类，方便给读者推荐阅读。思路是这样：
 1. 中文分词</p>
 
 <pre><code>中文分词大概是所有（中文）文本挖掘技术的基础，分词算法有很多类，字符串匹配+词典，统计模型等。互联网上有多种成熟的解决方案，我主要研究了下SAE的中文分词服务以及中科院的ictclas。SAE中文分词服务免费，但必须有appid，每次分词的文本大小不超过10KB，分词结果带有非常详细的词性标注，既然是服务，就无所谓语言支持了。ICTCLAS是个开源项目，支持C++，java等，考虑到ICTCLAS可能偏学术一些，我选用了SAE的中文分词，申请了一个appid，然后用php包装了一层，滤掉英文摘要，文本分段等等，向外提供rest接口，返回格式json。值的注意的是，这两种方法貌似对新词支持不够好，特别是ICTCLAS，“知乎”都分不出。
@@ -133,18 +130,51 @@ ICTCLAS：<a href="http://ictclas.org/index.html">http://ictclas.org/index.html<
 weka: <a href="http://www.cs.waikato.ac.nz/ml/weka/">http://www.cs.waikato.ac.nz/ml/weka/</a>
 YQL: <a href="https://developer.yahoo.com/yql/">https://developer.yahoo.com/yql/</a></p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">JUN DUAN</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2014-08-16T16:09:04+08:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
   
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://MagicJun.github.io/blog/2014/08/16/wen-ben-fen-lei/" data-via="" data-counturl="http://MagicJun.github.io/blog/2014/08/16/wen-ben-fen-lei/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -164,6 +194,7 @@ YQL: <a href="https://developer.yahoo.com/yql/">https://developer.yahoo.com/yql/
 
   
 </aside>
+
 
     </div>
   </div>
