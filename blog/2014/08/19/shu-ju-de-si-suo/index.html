@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>数据的思索 - Road I travelled</title>
+  <meta name="author" content="JUN DUAN">
+
+  
+  <meta name="description" content="场景1，知道明确的一组延时数据（不多），需要分析延时的分布；想清楚算法（排序），几行shell脚本应该可以完成。
+场景2，这些延时数据是记录在apache的log文件中，怎么计算它们的分布呢？那么对应的数据处理会是这个样子的：首先需要找到延时数据的pattern（正则匹配， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://MagicJun.github.io/blog/2014/08/19/shu-ju-de-si-suo">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Road I travelled" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Road I travelled</a></h1>
+  
+    <h2>from Beginners+ to Proficient, from worker to thinker</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:MagicJun.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">数据的思索</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-19T20:30:00+08:00" pubdate data-updated="true">Aug 19<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>场景1，知道明确的一组延时数据（不多），需要分析延时的分布；想清楚算法（排序），几行shell脚本应该可以完成。
+场景2，这些延时数据是记录在apache的log文件中，怎么计算它们的分布呢？那么对应的数据处理会是这个样子的：首先需要找到延时数据的pattern（正则匹配，可能还需要处理log中各种奇葩字符），然后收集起来，一台机器一个文件，然后把所有的文件合成一个大文件。同样的几行shell脚本应该也可以完成。问题是：扫log毕竟是很慢的，并且log一般都会压缩，解压出来又慢又占用资源；最后生成的大文件可能相当大，超过200m sort估计就处理不了了，当然也可以用merge的方法来排序；
+场景3，我们得想出办法存储这每天200m的数据，mysql不是一个可取的选择，mysql读写速度慢，表记录数超过千万后，查询速度更慢。分布式的KV数据库可以满足要求，key就是请求id，value是延时，并且设置过期时间。
+场景4，如果用户又增加了几个数量级，并且需要记录的用户数据更多，每台机器平均QPS一千，100台机器，一天的数据量将是86亿条，86G，这就需要大数据工具了，apache将请求emit出来，通过数据高速通道到达hadoop集群，数据使用HBase（或者BigTable）来存，定义好数据的schema，然后使用map-reduce对海量数据进行分析。如果不精通map和reduce的写法，可以使用更高层的脚本，如pig等，实质都是一样的，都会拆成若干map的task和reduce task，然后分配到mapper和reducer上执行。如果需要每天都分析这个数据，就可以用oozie这种工作流工具了，通过定制自己的coordinator和workflow，把需要干的活及其先后顺序定义清楚，oozie就可以按时按需启动你的任务了。</p>
+
+<p>果然这个时间写文章写不清楚，下次注意吧。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">JUN DUAN</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-19T20:30:00+08:00" pubdate data-updated="true">Aug 19<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://MagicJun.github.io/blog/2014/08/19/shu-ju-de-si-suo/" data-via="" data-counturl="http://MagicJun.github.io/blog/2014/08/19/shu-ju-de-si-suo/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/08/17/guo-nei-yi-dong-hu-lian-wang-yan-gao-shi-chang-xian-zhuang/" title="Previous Post: 国内移动互联网广告市场现状">&laquo; 国内移动互联网广告市场现状</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/19/shu-ju-de-si-suo/">数据的思索</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/17/guo-nei-yi-dong-hu-lian-wang-yan-gao-shi-chang-xian-zhuang/">国内移动互联网广告市场现状</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/wen-ben-fen-lei/">文本分类</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - JUN DUAN -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
